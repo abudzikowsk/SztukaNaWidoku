@@ -1,0 +1,66 @@
+using HtmlAgilityPack;
+
+namespace SztukaNaWidoku.Services;
+
+public class ScrappingMSNService(HttpClient httpClient, ILogger<ScrappingMNWService> logger)
+{
+    private const string baseUrl = "https://artmuseum.pl";
+    
+    //Muzeum Sztuki Nowoczesnej w Warszawie
+    public async Task Scrap()
+    {
+        var html = await httpClient.GetStringAsync(baseUrl + "/pl/wystawy");
+
+        var htmlDocument = new HtmlDocument();
+        htmlDocument.LoadHtml(html);
+
+        var nodes = htmlDocument.DocumentNode.SelectNodes("//div[@class='box']//a");
+
+        foreach (var node in nodes)
+        {
+            var isActiveNode = node.SelectSingleNode(".//div//span");
+            if(isActiveNode == null)
+            {
+                logger.LogWarning("Link to exhibition not found.");
+                continue;
+            }
+    
+            if(isActiveNode.InnerText.ToLowerInvariant() != "aktualna wystawa")
+            {
+                continue;
+            }
+            
+            var exhibitionLink = node.Attributes["href"].Value;
+            var exhibitionHtml = await httpClient.GetStringAsync(baseUrl + node.Attributes["href"].Value);
+            var exhibitionHtmlDocument = new HtmlDocument();
+            exhibitionHtmlDocument.LoadHtml(exhibitionHtml);
+    
+            var titleNode = node.SelectSingleNode(".//div[@class='content']//h3");
+            if(titleNode == null)
+            {
+                logger.LogWarning($"Title for {exhibitionLink} not found.");
+                continue;
+            }
+            
+            var dateNode = node.SelectSingleNode(".//div[@class='content']//time");
+            var imgNode = node.SelectSingleNode(".//img");
+            if(imgNode == null)
+            {
+                logger.LogWarning($"Image for {exhibitionLink} not found.");
+                continue;
+            }
+            
+            var descriptionNode = exhibitionHtmlDocument.DocumentNode.SelectSingleNode("//p[@class='lead']");
+            if (descriptionNode == null)
+            {
+                logger.LogWarning($"Description for {exhibitionLink} not found.");
+                continue;
+            }
+
+            var title = titleNode.InnerText;
+            var date = dateNode.InnerText;
+            var imgUrl = baseUrl + imgNode.Attributes["src"].Value;
+            var description = descriptionNode.InnerText;
+        }
+    }
+}

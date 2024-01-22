@@ -4,7 +4,6 @@ namespace SztukaNaWidoku.Services;
 
 public class ScrappingMNWService(HttpClient httpClient, ILogger<ScrappingMNWService> logger)
 {
-    private readonly HttpClient _httpClient = httpClient;
     private const string baseUrl = "https://www.mnw.art.pl";
 
     //Muzeum Narodowe w Warszawie

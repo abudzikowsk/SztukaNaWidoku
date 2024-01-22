@@ -4,7 +4,6 @@ namespace SztukaNaWidoku.Services;
 
 public class ScrappingZachetaService(HttpClient httpClient, ILogger<ScrappingMNWService> logger)
 {
-    private readonly HttpClient _httpClient = httpClient;
     private const string baseUrl = "https://zacheta.art.pl";
 
     //Zachęta Narodowa Galeria Sztuki
