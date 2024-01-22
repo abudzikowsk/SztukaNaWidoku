@@ -57,6 +57,11 @@ table {
   src: url('/assets/PlayfairDisplay-VariableFont_wght.ttf') format('truetype');
 }
 
+@font-face {
+  font-family: 'LubalinGraphStd-Book';
+  src: url('/assets/LubalinGraphStd-Book.otf') format('opentype');
+}
+
 body {
-  font-family: 'BodoniModa-VariableFont_opsz,wght';
+  font-family: 'LubalinGraphStd-Book';
 }

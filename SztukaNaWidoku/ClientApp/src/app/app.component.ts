@@ -12,5 +12,5 @@ import {EventBoxComponent} from "./event-box/event-box.component";
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = 'ClientApp';
+  title = 'Sztuka na widoku';
 }
