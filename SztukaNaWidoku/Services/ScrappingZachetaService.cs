@@ -18,6 +18,12 @@ public class ScrappingZachetaService(HttpClient httpClient, ILogger<ScrappingMNW
         var nodes = htmlDocument.DocumentNode.SelectNodes("//a[@class='list-item-link']");
 
         var exhibitions = new List<Exhibition>();
+        if(nodes == null)
+        {
+            logger.LogWarning("Nodes not found.");
+            return exhibitions;
+        }
+        
         foreach (var node in nodes)
         {
             var exhibitionLink = node.Attributes["href"].Value;
@@ -63,7 +69,7 @@ public class ScrappingZachetaService(HttpClient httpClient, ILogger<ScrappingMNW
             var exhibition = new Exhibition
             {
                 MuseoId = 5,
-                Link = exhibitionLink,
+                Link = $"{baseUrl}{exhibitionLink}",
                 Title = title,
                 Date = date,
                 ImageLink = imgLink,

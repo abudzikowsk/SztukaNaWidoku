@@ -17,6 +17,12 @@ public class ScrappingPGSService(HttpClient httpClient, ILogger<ScrappingMNWServ
 
         var nodes = htmlDocument.DocumentNode.SelectNodes("//div[@class='elementor-element elementor-element-1196ac5 elementor-column elementor-col-100 elementor-top-column']");
         HtmlNodeCollection? links = null;
+        if(nodes == null)
+        {
+            logger.LogWarning("Nodes not found.");
+            return new List<Exhibition>();
+        }
+        
         foreach (var singleNode in nodes)
         {
             var titleNode = singleNode.SelectSingleNode(".//h3[@class='elementor-heading-title elementor-size-default']");
@@ -38,7 +44,7 @@ public class ScrappingPGSService(HttpClient httpClient, ILogger<ScrappingMNWServ
             logger.LogWarning("Links to exhibitions not found.");
             return exhibitions;
         }
-
+        
         foreach (var link in links)
         {
             var exhibitionLink = link.Attributes["href"].Value;
@@ -85,7 +91,8 @@ public class ScrappingPGSService(HttpClient httpClient, ILogger<ScrappingMNWServ
                 Description = description,
                 ImageLink = imgLink,
                 Date = date,
-                MuseoId = 3
+                MuseoId = 3,
+                Link = exhibitionLink
             });
         }
 

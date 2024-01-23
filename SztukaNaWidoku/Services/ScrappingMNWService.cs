@@ -18,6 +18,12 @@ public class ScrappingMNWService(HttpClient httpClient, ILogger<ScrappingMNWServ
         var nodes = htmlDocument.DocumentNode.SelectNodes("//div[@class='news-content']//*[@class='title']");
 
         var exhibitions = new List<Exhibition>();
+        if(nodes == null)
+        {
+            logger.LogWarning("Nodes not found.");
+            return exhibitions;
+        }
+        
         foreach (var node in nodes)
         {
             var link = node.SelectSingleNode(".//a");
@@ -62,7 +68,8 @@ public class ScrappingMNWService(HttpClient httpClient, ILogger<ScrappingMNWServ
                 Description = description,
                 ImageLink = imgLink,
                 Date = date,
-                MuseoId = 1
+                MuseoId = 1,
+                Link = $"{baseUrl}{exhibitionLink}"
             });
         }
 

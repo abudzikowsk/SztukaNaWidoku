@@ -3,15 +3,11 @@ using SztukaNaWidoku.Database.Entities;
 
 namespace SztukaNaWidoku.Database.Repositories;
 
-public class ExhibitionRepository(ApplicationDbContext applicationDbContext)
+public class ExhibitionRepository(ApplicationDbContext _applicationDbContext)
 {
-    private readonly ApplicationDbContext _applicationDbContext = applicationDbContext;
-    
-    public async Task<Exhibition[]> GetAllByMuseo(int museoId)
+    public async Task<Exhibition[]> GetAll()
     {
-        return await _applicationDbContext.Exhibitions
-            .Where(i => i.MuseoId == museoId)
-            .ToArrayAsync();
+        return await _applicationDbContext.Exhibitions.ToArrayAsync();
     }
     
     public async Task CreateMany(List<Exhibition> exhibitions)

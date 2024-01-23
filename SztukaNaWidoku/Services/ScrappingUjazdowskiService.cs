@@ -18,6 +18,12 @@ public class ScrappingUjazdowskiService(HttpClient httpClient, ILogger<Scrapping
         var nodes = htmlDocument.DocumentNode.SelectNodes("//div[@class='item-box event-box masonry-item has-image']//a");
 
         var exhibitions = new List<Exhibition>();
+        if(nodes == null)
+        {
+            logger.LogWarning("Nodes not found.");
+            return exhibitions;
+        }
+        
         foreach (var node in nodes)
         {
             var exhibitionLink = node.Attributes["href"].Value;
@@ -74,7 +80,7 @@ public class ScrappingUjazdowskiService(HttpClient httpClient, ILogger<Scrapping
                     Description = description,
                     ImageLink = imgLink,
                     Date = date,
-                    Link = exhibitionLink,
+                    Link = $"{baseUrl}{exhibitionLink}",
                     MuseoId = 4
                 });
             }
