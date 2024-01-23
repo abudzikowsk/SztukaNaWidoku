@@ -1,10 +1,38 @@
-﻿var builder = WebApplication.CreateBuilder(args);
+﻿using Bursztynorama.Database.Repositories;
+using Hangfire;
+using Hangfire.Storage.SQLite;
+using Microsoft.EntityFrameworkCore;
+using SztukaNaWidoku.Database;
+using SztukaNaWidoku.Services;
+
+var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllersWithViews();
+builder.Services.AddHttpClient();
+builder.Services.AddDbContext<ApplicationDbContext>(o => o.UseSqlite("Data Source=Database.db"));
+builder.Services.AddScoped<ExhibitionRepository>();
+builder.Services.AddScoped<ScrappingMNWService>();
+builder.Services.AddScoped<ScrappingMSNService>();
+builder.Services.AddScoped<ScrappingPGSService>();
+builder.Services.AddScoped<ScrappingUjazdowskiService>();
+builder.Services.AddScoped<ScrappingZachetaService>();
+builder.Services.AddHangfire(a => a.SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
+    .UseSimpleAssemblyNameTypeSerializer()
+    .UseRecommendedSerializerSettings()
+    .UseSQLiteStorage());
+builder.Services.AddHangfireServer();
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+
+    var context = services.GetRequiredService<ApplicationDbContext>();
+    context.Database.Migrate();
+}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

@@ -2,7 +2,7 @@ using HtmlAgilityPack;
 
 namespace SztukaNaWidoku.Services;
 
-public class ScrappingUJazdowskiService(HttpClient httpClient, ILogger<ScrappingMNWService> logger)
+public class ScrappingUjazdowskiService(HttpClient httpClient, ILogger<ScrappingMNWService> logger)
 {
     private const string baseUrl = "https://artmuseum.pl";
 
