@@ -6,6 +6,7 @@ public class ScrappingUJazdowskiService(HttpClient httpClient, ILogger<Scrapping
 {
     private const string baseUrl = "https://artmuseum.pl";
 
+    //Centrum Sztuki Współczesnej Zamek Ujazdowski
     public async Task Scrap()
     {
         var html = await httpClient.GetStringAsync(baseUrl + "/program/wystawy");
