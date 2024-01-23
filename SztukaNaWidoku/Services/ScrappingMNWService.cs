@@ -1,4 +1,5 @@
 using HtmlAgilityPack;
+using SztukaNaWidoku.Database.Entities;
 
 namespace SztukaNaWidoku.Services;
 
@@ -7,7 +8,7 @@ public class ScrappingMNWService(HttpClient httpClient, ILogger<ScrappingMNWServ
     private const string baseUrl = "https://www.mnw.art.pl";
 
     //Muzeum Narodowe w Warszawie
-    public async Task Scrap()
+    public async Task<List<Exhibition>> Scrap()
     {
         var html = await httpClient.GetStringAsync($"{baseUrl}/wystawy");
 
@@ -16,6 +17,7 @@ public class ScrappingMNWService(HttpClient httpClient, ILogger<ScrappingMNWServ
 
         var nodes = htmlDocument.DocumentNode.SelectNodes("//div[@class='news-content']//*[@class='title']");
 
+        var exhibitions = new List<Exhibition>();
         foreach (var node in nodes)
         {
             var link = node.SelectSingleNode(".//a");
@@ -52,8 +54,18 @@ public class ScrappingMNWService(HttpClient httpClient, ILogger<ScrappingMNWServ
             var title = titleNode.InnerText;
             var date = dateNode.InnerText;
             var description = descriptionNode.InnerText;
-            var imgUrl = baseUrl + imgNode.Attributes["src"].Value;
+            var imgLink = baseUrl + imgNode.Attributes["src"].Value;
+            
+            exhibitions.Add(new Exhibition
+            {
+                Title = title,
+                Description = description,
+                ImageLink = imgLink,
+                Date = date,
+                MuseoId = 1
+            });
         }
 
+        return exhibitions;
     }
 }

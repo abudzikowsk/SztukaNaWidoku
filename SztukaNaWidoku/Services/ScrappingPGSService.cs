@@ -1,4 +1,5 @@
 using HtmlAgilityPack;
+using SztukaNaWidoku.Database.Entities;
 
 namespace SztukaNaWidoku.Services;
 
@@ -7,7 +8,7 @@ public class ScrappingPGSService(HttpClient httpClient, ILogger<ScrappingMNWServ
     private const string baseUrl = "https://pgs.pl";
     
     //Państwowa Galeria Sztuki w Sopocie
-    public async Task Scrap()
+    public async Task<List<Exhibition>> Scrap()
     {
         var html = await httpClient.GetStringAsync(baseUrl);
 
@@ -30,11 +31,12 @@ public class ScrappingPGSService(HttpClient httpClient, ILogger<ScrappingMNWServ
                 links = singleNode.SelectNodes(".//div[@class='jet-smart-listing__post-thumbnail post-thumbnail-simple']//a");
             }
         }
-        
+        var exhibitions = new List<Exhibition>();
+
         if(links == null)
         {
             logger.LogWarning("Links to exhibitions not found.");
-            return;
+            return exhibitions;
         }
 
         foreach (var link in links)
@@ -74,8 +76,19 @@ public class ScrappingPGSService(HttpClient httpClient, ILogger<ScrappingMNWServ
 
             var title = titleNode.InnerText;
             var date = dateNode.InnerText;
-            var imgUrl = baseUrl + imgNode.Attributes["src"].Value;
+            var imgLink = baseUrl + imgNode.Attributes["src"].Value;
             var description = descriptionNodes.Skip(4).First().InnerText;
+            
+            exhibitions.Add(new Exhibition
+            {
+                Title = title,
+                Description = description,
+                ImageLink = imgLink,
+                Date = date,
+                MuseoId = 3
+            });
         }
+
+        return exhibitions;
     }
 }

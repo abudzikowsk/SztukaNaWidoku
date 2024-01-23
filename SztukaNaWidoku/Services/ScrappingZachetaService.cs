@@ -1,4 +1,5 @@
 using HtmlAgilityPack;
+using SztukaNaWidoku.Database.Entities;
 
 namespace SztukaNaWidoku.Services;
 
@@ -7,7 +8,7 @@ public class ScrappingZachetaService(HttpClient httpClient, ILogger<ScrappingMNW
     private const string baseUrl = "https://zacheta.art.pl";
 
     //Zachęta Narodowa Galeria Sztuki
-    public async Task Scrap()
+    public async Task<List<Exhibition>> Scrap()
     {
         var html = await httpClient.GetStringAsync(baseUrl + "/pl/wystawy");
 
@@ -16,6 +17,7 @@ public class ScrappingZachetaService(HttpClient httpClient, ILogger<ScrappingMNW
 
         var nodes = htmlDocument.DocumentNode.SelectNodes("//a[@class='list-item-link']");
 
+        var exhibitions = new List<Exhibition>();
         foreach (var node in nodes)
         {
             var exhibitionLink = node.Attributes["href"].Value;
@@ -55,8 +57,20 @@ public class ScrappingZachetaService(HttpClient httpClient, ILogger<ScrappingMNW
 
             var title = titleNode.InnerText;
             var date = dateNode.InnerText;
-            var imgUrl = baseUrl + imgNode.SelectSingleNode("//picture//source").Attributes["srcset"].Value;
+            var imgLink = baseUrl + imgNode.SelectSingleNode("//picture//source").Attributes["srcset"].Value;
             var description = descriptionNode.InnerText;
+            
+            var exhibition = new Exhibition
+            {
+                MuseoId = 5,
+                Link = exhibitionLink,
+                Title = title,
+                Date = date,
+                ImageLink = imgLink,
+                Description = description
+            };
         }
+
+        return exhibitions;
     }
 }

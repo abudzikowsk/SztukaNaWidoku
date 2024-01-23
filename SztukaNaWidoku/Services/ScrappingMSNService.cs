@@ -1,4 +1,5 @@
 using HtmlAgilityPack;
+using SztukaNaWidoku.Database.Entities;
 
 namespace SztukaNaWidoku.Services;
 
@@ -7,7 +8,7 @@ public class ScrappingMSNService(HttpClient httpClient, ILogger<ScrappingMNWServ
     private const string baseUrl = "https://artmuseum.pl";
     
     //Muzeum Sztuki Nowoczesnej w Warszawie
-    public async Task Scrap()
+    public async Task<List<Exhibition>> Scrap()
     {
         var html = await httpClient.GetStringAsync(baseUrl + "/pl/wystawy");
 
@@ -16,6 +17,7 @@ public class ScrappingMSNService(HttpClient httpClient, ILogger<ScrappingMNWServ
 
         var nodes = htmlDocument.DocumentNode.SelectNodes("//div[@class='box']//a");
 
+        var exhibitions = new List<Exhibition>();
         foreach (var node in nodes)
         {
             var isActiveNode = node.SelectSingleNode(".//div//span");
@@ -59,8 +61,19 @@ public class ScrappingMSNService(HttpClient httpClient, ILogger<ScrappingMNWServ
 
             var title = titleNode.InnerText;
             var date = dateNode.InnerText;
-            var imgUrl = baseUrl + imgNode.Attributes["src"].Value;
+            var imgLink = baseUrl + imgNode.Attributes["src"].Value;
             var description = descriptionNode.InnerText;
+            
+            exhibitions.Add(new Exhibition
+            {
+                Title = title,
+                Description = description,
+                ImageLink = imgLink,
+                Date = date,
+                MuseoId = 2
+            });
         }
+        
+        return exhibitions;
     }
 }

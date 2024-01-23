@@ -1,4 +1,5 @@
 using HtmlAgilityPack;
+using SztukaNaWidoku.Database.Entities;
 
 namespace SztukaNaWidoku.Services;
 
@@ -7,7 +8,7 @@ public class ScrappingUjazdowskiService(HttpClient httpClient, ILogger<Scrapping
     private const string baseUrl = "https://artmuseum.pl";
 
     //Centrum Sztuki Współczesnej Zamek Ujazdowski
-    public async Task Scrap()
+    public async Task<List<Exhibition>> Scrap()
     {
         var html = await httpClient.GetStringAsync(baseUrl + "/program/wystawy");
 
@@ -16,6 +17,7 @@ public class ScrappingUjazdowskiService(HttpClient httpClient, ILogger<Scrapping
 
         var nodes = htmlDocument.DocumentNode.SelectNodes("//div[@class='item-box event-box masonry-item has-image']//a");
 
+        var exhibitions = new List<Exhibition>();
         foreach (var node in nodes)
         {
             var exhibitionLink = node.Attributes["href"].Value;
@@ -63,9 +65,21 @@ public class ScrappingUjazdowskiService(HttpClient httpClient, ILogger<Scrapping
 
                 var title = titleNode.InnerText;
                 var date = dateText;
-                var imgUrl = baseUrl + imgNode.Attributes["src"].Value;
+                var imgLink = baseUrl + imgNode.Attributes["src"].Value;
                 var description = descriptionNode.InnerText;
+                
+                exhibitions.Add(new Exhibition
+                {
+                    Title = title,
+                    Description = description,
+                    ImageLink = imgLink,
+                    Date = date,
+                    Link = exhibitionLink,
+                    MuseoId = 4
+                });
             }
         }
+
+        return exhibitions;
     }
 }
