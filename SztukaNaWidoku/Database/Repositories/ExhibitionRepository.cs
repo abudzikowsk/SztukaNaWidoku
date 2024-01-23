@@ -1,8 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using SztukaNaWidoku.Database;
 using SztukaNaWidoku.Database.Entities;
 
-namespace Bursztynorama.Database.Repositories;
+namespace SztukaNaWidoku.Database.Repositories;
 
 public class ExhibitionRepository(ApplicationDbContext applicationDbContext)
 {
@@ -15,14 +14,16 @@ public class ExhibitionRepository(ApplicationDbContext applicationDbContext)
             .ToArrayAsync();
     }
     
-    public async Task Create(Exhibition exhibition)
+    public async Task CreateMany(List<Exhibition> exhibitions)
     {
-        _applicationDbContext.Exhibitions.Add(exhibition);
-        await _applicationDbContext.SaveChangesAsync();
+        _applicationDbContext.Exhibitions.AddRange(exhibitions);
+        await _applicationDbContext.SaveChangesAsync(); 
     }
 
-    public async Task Delete(Exhibition exhibition)
+    public async Task DeleteAll()
     {
-        _applicationDbContext.Exhibitions.Remove(exhibition);
-    }
+        var exhibitions = await _applicationDbContext.Exhibitions.ToArrayAsync();
+        _applicationDbContext.Exhibitions.RemoveRange(exhibitions);
+        await _applicationDbContext.SaveChangesAsync();
+    }   
 }

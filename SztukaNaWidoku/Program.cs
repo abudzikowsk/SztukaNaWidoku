@@ -1,8 +1,10 @@
-﻿using Bursztynorama.Database.Repositories;
-using Hangfire;
+﻿using Hangfire;
 using Hangfire.Storage.SQLite;
 using Microsoft.EntityFrameworkCore;
 using SztukaNaWidoku.Database;
+using SztukaNaWidoku.Database.Repositories;
+using SztukaNaWidoku.Filters;
+using SztukaNaWidoku.Jobs;
 using SztukaNaWidoku.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -23,6 +25,13 @@ builder.Services.AddHangfire(a => a.SetDataCompatibilityLevel(CompatibilityLevel
     .UseRecommendedSerializerSettings()
     .UseSQLiteStorage());
 builder.Services.AddHangfireServer();
+builder.Services.AddScoped<GetExhibitionsDataJob>();
+builder.Services.AddScoped<DeleteAllExhibitionsDataJob>();
+builder.Services.AddSwaggerGen();
+builder.Services.AddSpaStaticFiles(configuration =>
+{
+    configuration.RootPath = "ClientApp/build";
+});
 
 var app = builder.Build();
 
@@ -46,11 +55,35 @@ app.UseStaticFiles();
 app.UseRouting();
 
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller}/{action=Index}/{id?}");
+if (app.Environment.IsDevelopment())
+{
+    app.UseHangfireDashboard("/hangfire", new DashboardOptions
+    {
+        Authorization = new[] { new HangfireAuthorizationFilter() }
+    });
 
-app.MapFallbackToFile("index.html");
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
+app.UseEndpoints(opts =>
+{
+    opts.MapControllerRoute(
+        name: "default",
+        pattern: "{controller}/{action=Index}/{id?}");
+});
+
+app.UseSpa(spa =>
+{
+    spa.Options.SourcePath = "ClientApp";
+    if (app.Environment.IsDevelopment())
+    {
+        spa.UseProxyToSpaDevelopmentServer("http://localhost:4200");
+    }
+});
+
+app.UseGetExhibitionsDataJob();
+app.UseDeleteAllExhibitionsDataJob();
 
 app.Run();
 
