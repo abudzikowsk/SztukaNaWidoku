@@ -1,11 +1,12 @@
-<a class="link" href="https://www.mnw.art.pl/wystawy/arkadia,258.html">
+<a class="link" href="{{ event.link }}">
   <div class="container">
-  <img class="img" alt="Grafika reprezentująca wystawę"
-       src="https://www.mnw.art.pl/gfx/muzeumnarodowe/userfiles/_public/arkadia_banner_www_kup_bilet.jpg">
-  <p class="title">Arkadia</p>
-  <p class="museo">Muzeum Narodowe w Warszawie</p>
-  <p class="date">17 listopada 2023 – 17 marca 2024</p>
-  <p class="description">Mit Arkadii, wywodzący się m.in. z Bukolik (Eklog) Wergiliusza, to wyobrażenie świata idealnego, w którym panuje niezmienny ład, a jego mieszkańcy doświadczają błogiego szczęścia, wiecznej młodości, wolności, swobodnej erotyki. Na wystawie zostaną zaprezentowane różnorodne interpretacje tematu, który na stałe zagościł w kulturze europejskiej. Od czasów nowożytnych motywy arkadyjskie wciąż powracają w twórczości artystów przedstawiających piękną krainę pasterek i pasterzy, nimf i satyrów. Do treści tych nawiązują także metaforycznie, na różne sposoby wyrażając tęsknotę człowieka za szczęściem. Topos Arkadii znalazł swój wyraz w obrazach dworskich ogrodów, siedzib ziemiańskich, egzotycznych krain czy malowniczych regionów, gdzie można odczuć harmonijną więź z przyrodą.</p>
+  <img class="img" alt="Grafika wystawy"
+       src="{{ event.imageLink }}">
+  <p class="title" [innerHTML]="event.title"></p>
+  <p class="museo" [innerHTML]="event.museoName"></p>
+  <p class="date" [innerHTML]="event.date"></p>
+  <p class="description" [innerHTML]="event.description"></p>
   </div>
 </a>
+
 

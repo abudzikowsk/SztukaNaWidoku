@@ -24,7 +24,8 @@ public class ExhibitionsController(ExhibitionRepository exhibitionRepository) : 
                 Title = d.Title,
                 Date = d.Date,
                 ImageLink = d.ImageLink,
-                Description = d.Description
+                Description = d.Description,
+                MuseoName = d.Museo.Name
             });
         }
         return mappedData;

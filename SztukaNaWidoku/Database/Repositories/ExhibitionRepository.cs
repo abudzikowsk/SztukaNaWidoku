@@ -7,7 +7,8 @@ public class ExhibitionRepository(ApplicationDbContext _applicationDbContext)
 {
     public async Task<Exhibition[]> GetAll()
     {
-        return await _applicationDbContext.Exhibitions.ToArrayAsync();
+        return await _applicationDbContext.Exhibitions.Include(m => m.Museo)
+            .ToArrayAsync();
     }
     
     public async Task CreateMany(List<Exhibition> exhibitions)
