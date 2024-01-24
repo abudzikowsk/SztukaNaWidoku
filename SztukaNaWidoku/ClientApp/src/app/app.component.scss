@@ -3,4 +3,8 @@
   grid-template-columns: repeat(3, 30%);
   grid-gap: 20px;
   justify-content: center;
+
+  @media screen and (max-width: 900px){
+    grid-template-columns: 100%;
+  }
 }
