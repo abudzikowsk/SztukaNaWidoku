@@ -1,3 +1,4 @@
+using Bursztynorama.Database.Enums;
 using HtmlAgilityPack;
 using SztukaNaWidoku.Database.Entities;
 
@@ -76,7 +77,7 @@ public class ScrappingMSNService(HttpClient httpClient, ILogger<ScrappingMNWServ
                 Description = description,
                 ImageLink = imgLink,
                 Date = date,
-                MuseoId = 2,
+                MuseoId = (int)Museos.MuzeumSztukiNowoczesnejWWarszawie,
                 Link = $"{baseUrl}{exhibitionLink}"
             });
         }

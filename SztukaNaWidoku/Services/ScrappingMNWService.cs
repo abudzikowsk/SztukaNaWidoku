@@ -1,3 +1,4 @@
+using Bursztynorama.Database.Enums;
 using HtmlAgilityPack;
 using SztukaNaWidoku.Database.Entities;
 
@@ -68,7 +69,7 @@ public class ScrappingMNWService(HttpClient httpClient, ILogger<ScrappingMNWServ
                 Description = description,
                 ImageLink = imgLink,
                 Date = date,
-                MuseoId = 1,
+                MuseoId = (int)Museos.MuzeumNarodoweWWarszawie,
                 Link = $"{baseUrl}{exhibitionLink}"
             });
         }

@@ -1,3 +1,4 @@
+using Bursztynorama.Database.Enums;
 using HtmlAgilityPack;
 using SztukaNaWidoku.Database.Entities;
 
@@ -68,13 +69,14 @@ public class ScrappingZachetaService(HttpClient httpClient, ILogger<ScrappingMNW
             
             var exhibition = new Exhibition
             {
-                MuseoId = 5,
+                MuseoId = (int)Museos.ZachetaNarodowaGaleriaSztuki,
                 Link = $"{baseUrl}{exhibitionLink}",
                 Title = title,
                 Date = date,
                 ImageLink = imgLink,
                 Description = description
             };
+            exhibitions.Add(exhibition);
         }
 
         return exhibitions;

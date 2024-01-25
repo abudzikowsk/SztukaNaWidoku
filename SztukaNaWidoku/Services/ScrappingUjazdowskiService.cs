@@ -1,3 +1,4 @@
+using Bursztynorama.Database.Enums;
 using HtmlAgilityPack;
 using SztukaNaWidoku.Database.Entities;
 
@@ -81,7 +82,7 @@ public class ScrappingUjazdowskiService(HttpClient httpClient, ILogger<Scrapping
                     ImageLink = imgLink,
                     Date = date,
                     Link = $"{baseUrl}{exhibitionLink}",
-                    MuseoId = 4
+                    MuseoId = (int)Museos.CentrumSztukiWspółczesnejZamekUjazdowski
                 });
             }
         }
