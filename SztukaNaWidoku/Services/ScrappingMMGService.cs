@@ -8,7 +8,7 @@ public class ScrappingMMGService(HttpClient httpClient, ILogger<ScrappingMMGServ
 {
     private const string baseUrl = "https://muzeumgdynia.pl";
 
-    //Muzem Miasta Gdyni
+    //Muzeum Miasta Gdyni
     public async Task<List<Exhibition>> Scrap()
     {
         var exhibitions = new List<Exhibition>();
@@ -51,7 +51,7 @@ public class ScrappingMMGService(HttpClient httpClient, ILogger<ScrappingMMGServ
     
             var title = titleNode.InnerText;
             var date = dates[i].InnerText;
-            var imgUrl = baseUrl + imgNode.Attributes["src"].Value;
+            var imgUrl = imgNode.Attributes["src"].Value;
             var description = descriptionNodes.InnerText;
             
             exhibitions.Add(new Exhibition

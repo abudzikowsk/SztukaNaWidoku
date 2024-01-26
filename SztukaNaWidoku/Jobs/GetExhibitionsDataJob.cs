@@ -8,7 +8,9 @@ public class GetExhibitionsDataJob(ExhibitionRepository exhibitionRepository,
     ScrappingMSNService scrappingMSNService, 
     ScrappingPGSService scrappingPGSService,
     ScrappingUjazdowskiService scrappingUjazdowskiService,
-    ScrappingZachetaService scrappingZachetaService)
+    ScrappingZachetaService scrappingZachetaService,
+    ScrappingCSWLazniaService scrappingCSWLazniaService,
+    ScrappingMMGService scrappingMMGService)
 {
     public async Task Run()
     {
@@ -17,7 +19,9 @@ public class GetExhibitionsDataJob(ExhibitionRepository exhibitionRepository,
             scrappingMSNService.Scrap(),
             scrappingPGSService.Scrap(),
             scrappingUjazdowskiService.Scrap(),
-            scrappingZachetaService.Scrap()
+            scrappingZachetaService.Scrap(),
+            scrappingCSWLazniaService.Scrap(),
+            scrappingMMGService.Scrap()
         );
 
         await exhibitionRepository.CreateMany(exhibitions.SelectMany(i => i).ToList());

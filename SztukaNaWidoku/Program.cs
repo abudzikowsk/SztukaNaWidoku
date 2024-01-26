@@ -20,6 +20,8 @@ builder.Services.AddScoped<ScrappingMSNService>();
 builder.Services.AddScoped<ScrappingPGSService>();
 builder.Services.AddScoped<ScrappingUjazdowskiService>();
 builder.Services.AddScoped<ScrappingZachetaService>();
+builder.Services.AddScoped<ScrappingCSWLazniaService>();
+builder.Services.AddScoped<ScrappingMMGService>();
 builder.Services.AddHangfire(a => a.SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
     .UseSimpleAssemblyNameTypeSerializer()
     .UseRecommendedSerializerSettings()
