@@ -1,3 +1,4 @@
+using System.Text;
 using SztukaNaWidoku.Database.Repositories;
 using SztukaNaWidoku.Services;
 
@@ -23,6 +24,27 @@ public class GetExhibitionsDataJob(ExhibitionRepository exhibitionRepository,
             scrappingCSWLazniaService.Scrap(),
             scrappingMMGService.Scrap()
         );
+        var exhibitionsFlatten = exhibitions.SelectMany(i => i).ToList();
+        foreach (var exhibition in exhibitionsFlatten)
+        {
+            var counter = 0;
+            var stringBuilder = new StringBuilder();
+            foreach (var character in exhibition.Description)
+            {
+                stringBuilder.Append(character);
+                if (character == '.')
+                {
+                    counter++;
+                }
+
+                if (counter == 4)
+                {
+                    break;
+                }
+            }
+
+            exhibition.Description = stringBuilder.ToString();
+        }
 
         await exhibitionRepository.CreateMany(exhibitions.SelectMany(i => i).ToList());
     }

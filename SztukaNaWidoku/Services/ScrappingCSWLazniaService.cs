@@ -80,7 +80,7 @@ public class ScrappingCSWLazniaService(HttpClient httpClient, ILogger<ScrappingM
                 continue;
             }
             
-            var regex = new Regex(@"(\/up\/wystawy\/\w*\/\w*.jpg)");
+            var regex = new Regex(@"(\/up\/wystawy\/\w*\/\w*.(jpg|png))");
     
             var title = titleNode.InnerText;
             var date = dates.InnerText;
@@ -94,7 +94,7 @@ public class ScrappingCSWLazniaService(HttpClient httpClient, ILogger<ScrappingM
                 ImageLink = imgUrl,
                 Date = date,
                 MuseoId = (int)Museos.CentrumSztukiWspółczesnejŁaznia,
-                Link = exhibitionLink
+                Link = $"{baseUrl}{exhibitionLink}"
             });
         }
         await browser.CloseAsync();
