@@ -1,4 +1,4 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, HostListener, inject, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import {NavBarComponent} from "./nav-bar/nav-bar.component";
@@ -13,14 +13,24 @@ import {HttpClient, HttpClientModule} from "@angular/common/http";
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit {
+  private readonly httpClient = inject(HttpClient);
+  private readonly MOBILE_WIDTH = 900;
   title = 'Sztuka na widoku';
-  httpClient = inject(HttpClient);
 
   response: ExhibitionModel[] = [];
+  isMobile = false;
+
   ngOnInit(): void {
     this.httpClient.get<ExhibitionModel[]>('/api/exhibitions').subscribe(result => {
       this.response = result;
     }, error => console.error(error));
+
+    this.isMobile = window.innerWidth <= this.MOBILE_WIDTH;
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    this.isMobile = window.innerWidth <= this.MOBILE_WIDTH;
   }
 }

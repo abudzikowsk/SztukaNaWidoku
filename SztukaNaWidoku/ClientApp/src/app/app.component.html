@@ -1,7 +1,33 @@
 <app-nav-bar></app-nav-bar>
-<div class="container">
-  @for (event of response; track event.id){
-    <app-event-box [event]="event"></app-event-box>
-  }
-</div>
-
+@if(isMobile){
+  <div class="container-mobile">
+    @for (event of response; track event.id){
+      <app-event-box [event]="event"></app-event-box>
+    }
+  </div>
+}
+@else {
+  <div class="container-desktop">
+    <div class="row">
+    @for (event of response; track event.id; let index = $index){
+        @if(index % 3 == 0){
+          <app-event-box [event]="event"></app-event-box>
+        }
+    }
+    </div>
+    <div class="row">
+      @for (event of response; track event.id; let index = $index){
+        @if(index % 3 == 1){
+          <app-event-box [event]="event"></app-event-box>
+        }
+      }
+    </div>
+    <div class="row">
+      @for (event of response; track event.id; let index = $index){
+        @if (index % 3 == 2){
+          <app-event-box [event]="event"></app-event-box>
+        }
+      }
+    </div>
+  </div>
+}
