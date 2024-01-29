@@ -8,12 +8,18 @@
   font-size: 48px;
   font-weight: bold;
   margin: 10px;
+  @media screen and (max-width: 600px) {
+    font-size: 30px;
+  }
 }
 
 .museo{
   font-size: 24px;
   font-weight: bold;
   margin: 10px;
+  @media screen and (max-width: 600px) {
+    font-size: 20px;
+  }
 }
 
 .date{
@@ -21,13 +27,18 @@
   font-weight: 500;
   margin: 10px;
   font-style: italic;
-
+  @media screen and (max-width: 600px) {
+    font-size: 12px;
+  }
 }
 
 .description{
   font-size: 16px;
   font-weight: 300;
   margin: 10px;
+  @media screen and (max-width: 600px) {
+    font-size: 14px;
+  }
 }
 
 .link{
