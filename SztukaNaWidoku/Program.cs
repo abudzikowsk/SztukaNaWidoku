@@ -1,6 +1,7 @@
 ﻿using Hangfire;
 using Hangfire.Storage.SQLite;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using SztukaNaWidoku.Database;
 using SztukaNaWidoku.Database.Repositories;
 using SztukaNaWidoku.Filters;
@@ -32,7 +33,7 @@ builder.Services.AddScoped<DeleteAllExhibitionsDataJob>();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSpaStaticFiles(configuration =>
 {
-    configuration.RootPath = "ClientApp/build";
+    configuration.RootPath = "ClientApp/dist/browser";
 });
 
 var app = builder.Build();
@@ -73,6 +74,17 @@ app.UseEndpoints(opts =>
         name: "default",
         pattern: "{controller}/{action=Index}/{id?}");
 });
+
+app.UseStaticFiles();
+
+if (!app.Environment.IsDevelopment())
+{
+    app.UseStaticFiles(new StaticFileOptions()
+    {
+        FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "ClientApp/dist/browser")),
+        RequestPath = new PathString(string.Empty)
+    });
+}
 
 app.UseSpa(spa =>
 {

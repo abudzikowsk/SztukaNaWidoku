@@ -403,3 +403,7 @@ ASALocalRun/
 
 # Local History for Visual Studio
 .localhistory/
+SztukaNaWidoku/Database.db-shm
+SztukaNaWidoku/Hangfire.db-shm
+SztukaNaWidoku/Hangfire.db-wal
+SztukaNaWidoku/Database.db-wal
