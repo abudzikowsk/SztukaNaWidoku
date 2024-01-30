@@ -17,8 +17,10 @@ public class ScrappingCSWLazniaService(HttpClient httpClient, ILogger<ScrappingM
 // Setup Puppeteer to use a new browser instance
         var browserFetcher = new BrowserFetcher();
         await browserFetcher.DownloadAsync();
-        var browser = await Puppeteer.LaunchAsync(new LaunchOptions());
-
+        var browser = await Puppeteer.LaunchAsync(new LaunchOptions
+        {
+            Args = ["--no-sandbox"]
+        });
 // Create a new page and go to it
         var page = await browser.NewPageAsync();
         await page.GoToAsync($"{baseUrl}/wystawy/");

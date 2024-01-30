@@ -1,7 +1,7 @@
 ﻿using Hangfire;
-using Hangfire.Storage.SQLite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
+using MK.Hangfire.Sqlite;
 using SztukaNaWidoku.Database;
 using SztukaNaWidoku.Database.Repositories;
 using SztukaNaWidoku.Filters;
@@ -14,7 +14,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddHttpClient();
-builder.Services.AddDbContext<ApplicationDbContext>(o => o.UseSqlite("Data Source=Database.db"));
+builder.Services.AddDbContext<ApplicationDbContext>(o => o.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped<ExhibitionRepository>();
 builder.Services.AddScoped<ScrappingMNWService>();
 builder.Services.AddScoped<ScrappingMSNService>();
@@ -26,7 +26,7 @@ builder.Services.AddScoped<ScrappingMMGService>();
 builder.Services.AddHangfire(a => a.SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
     .UseSimpleAssemblyNameTypeSerializer()
     .UseRecommendedSerializerSettings()
-    .UseSQLiteStorage());
+    .UseSqliteStorage(builder.Configuration.GetConnectionString("HangfireConnection")));
 builder.Services.AddHangfireServer();
 builder.Services.AddScoped<GetExhibitionsDataJob>();
 builder.Services.AddScoped<DeleteAllExhibitionsDataJob>();
