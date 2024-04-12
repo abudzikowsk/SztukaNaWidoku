@@ -1,4 +1,5 @@
 ﻿using Hangfire;
+using Hangfire.Storage.SQLite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using MK.Hangfire.Sqlite;
@@ -22,11 +23,22 @@ builder.Services.AddScoped<ScrappingPGSService>();
 builder.Services.AddScoped<ScrappingUjazdowskiService>();
 builder.Services.AddScoped<ScrappingZachetaService>();
 builder.Services.AddScoped<ScrappingCSWLazniaService>();
-builder.Services.AddScoped<ScrappingMMGService>();
-builder.Services.AddHangfire(a => a.SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
-    .UseSimpleAssemblyNameTypeSerializer()
-    .UseRecommendedSerializerSettings()
-    .UseSqliteStorage(builder.Configuration.GetConnectionString("HangfireConnection")));
+builder.Services.AddScoped<ScrappingMMGService>(); 
+builder.Services.AddHangfire(a =>
+    {
+        a.SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
+            .UseSimpleAssemblyNameTypeSerializer()
+            .UseRecommendedSerializerSettings();
+
+        if (builder.Environment.IsDevelopment())
+        {
+            a.UseSQLiteStorage();
+        }
+        else
+        {
+            a.UseSqliteStorage(builder.Configuration.GetConnectionString("HangfireConnection"));
+        }
+    });
 builder.Services.AddHangfireServer();
 builder.Services.AddScoped<GetExhibitionsDataJob>();
 builder.Services.AddScoped<DeleteAllExhibitionsDataJob>();
