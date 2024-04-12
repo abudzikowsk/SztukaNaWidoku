@@ -33,7 +33,7 @@ public class ScrappingPGSService(HttpClient httpClient, ILogger<ScrappingMNWServ
                 continue;
             }
             
-            if (titleNode.InnerText.ToLowerInvariant() == "wystawy")
+            if (titleNode.InnerText.ToLowerInvariant().Contains("wystawy"))
             {
                 links = singleNode.SelectNodes(".//div[@class='jet-smart-listing__post-thumbnail post-thumbnail-simple']//a");
             }
@@ -60,7 +60,7 @@ public class ScrappingPGSService(HttpClient httpClient, ILogger<ScrappingMNWServ
                 continue;
             }
         
-            var dateNode = exhibitionHtmlDocument.DocumentNode.SelectSingleNode(".//div[@class='entry-content']//p");
+            var dateNode = exhibitionHtmlDocument.DocumentNode.SelectNodes(".//div[@class='entry-content']//p");
             if(dateNode == null)
             {
                 logger.LogWarning($"Date for {exhibitionLink} not found.");
@@ -82,7 +82,7 @@ public class ScrappingPGSService(HttpClient httpClient, ILogger<ScrappingMNWServ
             }
 
             var title = titleNode.InnerText;
-            var date = dateNode.InnerText;
+            var date = string.Join(", ", dateNode.First().InnerText, dateNode.Skip(1).First().InnerText);
             var imgLink = imgNode.Attributes["src"].Value;
             var description = descriptionNodes.Skip(4).First().InnerText;
             
