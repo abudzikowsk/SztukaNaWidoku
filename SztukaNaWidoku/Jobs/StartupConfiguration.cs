@@ -8,6 +8,7 @@ public static class StartupConfiguration
     {
     	var recurringJobManager =  webApplication.Services.GetRequiredService<IRecurringJobManager>();
         recurringJobManager.AddOrUpdate<GetExhibitionsDataJob>("getExhibitionsDataJob", s => s.Run(), Cron.Daily(3));
+        recurringJobManager.Trigger("getExhibitionsDataJob");
     }
 
     public static void UseDeleteAllExhibitionsDataJob(this WebApplication webApplication)
