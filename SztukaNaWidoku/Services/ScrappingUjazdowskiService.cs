@@ -6,7 +6,7 @@ namespace SztukaNaWidoku.Services;
 
 public class ScrappingUjazdowskiService(HttpClient httpClient, ILogger<ScrappingMNWService> logger)
 {
-    private const string baseUrl = "https://artmuseum.pl";
+    private const string baseUrl = "https://u-jazdowski.pl";
 
     //Centrum Sztuki Współczesnej Zamek Ujazdowski
     public async Task<List<Exhibition>> Scrap()
