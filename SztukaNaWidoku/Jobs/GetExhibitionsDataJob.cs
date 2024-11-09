@@ -11,7 +11,8 @@ public class GetExhibitionsDataJob(ExhibitionRepository exhibitionRepository,
     ScrappingUjazdowskiService scrappingUjazdowskiService,
     ScrappingZachetaService scrappingZachetaService,
     ScrappingCSWLazniaService scrappingCSWLazniaService,
-    ScrappingMMGService scrappingMMGService)
+    ScrappingMMGService scrappingMMGService,
+    ScrappingMuzeumNarodoweGdansk scrappingMuzeumNarodoweGdansk)
 {
     public async Task Run()
     {
@@ -22,7 +23,8 @@ public class GetExhibitionsDataJob(ExhibitionRepository exhibitionRepository,
             scrappingUjazdowskiService.Scrap(),
             scrappingZachetaService.Scrap(),
             scrappingCSWLazniaService.Scrap(),
-            scrappingMMGService.Scrap()
+            scrappingMMGService.Scrap(), 
+            scrappingMuzeumNarodoweGdansk.Scrap()
         );
         var exhibitionsFlatten = exhibitions.SelectMany(i => i).ToList();
         foreach (var exhibition in exhibitionsFlatten)

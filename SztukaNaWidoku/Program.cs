@@ -23,7 +23,8 @@ builder.Services.AddScoped<ScrappingPGSService>();
 builder.Services.AddScoped<ScrappingUjazdowskiService>();
 builder.Services.AddScoped<ScrappingZachetaService>();
 builder.Services.AddScoped<ScrappingCSWLazniaService>();
-builder.Services.AddScoped<ScrappingMMGService>(); 
+builder.Services.AddScoped<ScrappingMMGService>();
+builder.Services.AddScoped<ScrappingMuzeumNarodoweGdansk>();
 builder.Services.AddHangfire(a =>
     {
         a.SetDataCompatibilityLevel(CompatibilityLevel.Version_170)

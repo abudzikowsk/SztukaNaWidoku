@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using SztukaNaWidoku.Database.Repositories;
 using SztukaNaWidoku.Models;
+using SztukaNaWidoku.Services;
 
 namespace SztukaNaWidoku.Controllers;
 
