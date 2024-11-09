@@ -1,14 +1,17 @@
 using Microsoft.EntityFrameworkCore;
 using SztukaNaWidoku.Database.Entities;
+using SztukaNaWidoku.Enums;
 
 namespace SztukaNaWidoku.Database.Repositories;
 
 public class ExhibitionRepository(ApplicationDbContext _applicationDbContext)
 {
-    public async Task<Exhibition[]> GetAll()
+    public async Task<Exhibition[]> GetAllByCityId(Cities? city)
     {
-        return await _applicationDbContext.Exhibitions.Include(m => m.Museo)
+        var exhibitions = await _applicationDbContext.Exhibitions.Include(m => m.Museo)
             .ToArrayAsync();
+
+        return city != null ? exhibitions.Where(x => x.Museo.MapToCity() == city).ToArray() : exhibitions;
     }
     
     public async Task CreateMany(List<Exhibition> exhibitions)

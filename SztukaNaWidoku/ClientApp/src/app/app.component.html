@@ -1,4 +1,11 @@
 <app-nav-bar></app-nav-bar>
+<div class="city-dropdown">
+  <label class="city-dropdown-label" for="city">Miasto</label>
+  <select class="city-dropdown-input" id="city" [(ngModel)]="selectedCity" (change)="onCityChange($event)">
+    <option *ngFor="let city of cities" [value]="city.id">{{ city.name }}</option>
+  </select>
+</div>
+
 @if(isMobile){
   <div class="container-mobile">
     @for (event of response; track event.id){

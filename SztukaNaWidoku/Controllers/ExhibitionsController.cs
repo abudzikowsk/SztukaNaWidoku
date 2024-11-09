@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using SztukaNaWidoku.Database.Repositories;
+using SztukaNaWidoku.Enums;
 using SztukaNaWidoku.Models;
-using SztukaNaWidoku.Services;
 
 namespace SztukaNaWidoku.Controllers;
 
@@ -10,9 +10,9 @@ namespace SztukaNaWidoku.Controllers;
 public class ExhibitionsController(ExhibitionRepository exhibitionRepository) : ControllerBase
 {
     [HttpGet]
-    public async Task<List<ExhibitionModel>> GetAllExhibitionsData()
+    public async Task<List<ExhibitionModel>> GetAllExhibitionsData(Cities? cityId)
     {
-        var data = await exhibitionRepository.GetAll();
+        var data = await exhibitionRepository.GetAllByCityId(cityId);
         
         var mappedData = new List<ExhibitionModel>();
         
