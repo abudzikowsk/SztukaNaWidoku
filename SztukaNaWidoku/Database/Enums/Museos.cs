@@ -1,4 +1,4 @@
-namespace Bursztynorama.Database.Enums;
+namespace SztukaNaWidoku.Database.Enums;
 
 public enum Museos
 {

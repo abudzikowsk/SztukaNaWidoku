@@ -1,6 +1,6 @@
-using Bursztynorama.Database.Enums;
 using HtmlAgilityPack;
 using SztukaNaWidoku.Database.Entities;
+using SztukaNaWidoku.Database.Enums;
 
 namespace SztukaNaWidoku.Services;
 

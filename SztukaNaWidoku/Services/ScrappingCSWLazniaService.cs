@@ -1,8 +1,8 @@
 using System.Text.RegularExpressions;
-using Bursztynorama.Database.Enums;
 using SztukaNaWidoku.Database.Entities;
 using HtmlAgilityPack;
 using PuppeteerSharp;
+using SztukaNaWidoku.Database.Enums;
 
 namespace SztukaNaWidoku.Services;
 
