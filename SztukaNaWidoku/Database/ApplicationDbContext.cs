@@ -57,7 +57,7 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
 			{
 				Id = 8,
 				Name = "Centrum Sztuki Współczesnej Łaźnia",
-				City = "Warszawa"
+				City = "Gdańsk"
 			}
 		);
 	}
