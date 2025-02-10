@@ -61,7 +61,7 @@ public class ScrappingMNWService(HttpClient httpClient, ILogger<ScrappingMNWServ
             var title = titleNode.InnerText;
             var date = dateNode.InnerText;
             var description = descriptionNode.InnerText;
-            var imgLink = baseUrl + imgNode.Attributes["src"].Value;
+            var imgLink = baseUrl + imgNode?.Attributes["src"].Value;
             
             exhibitions.Add(new Exhibition
             {
