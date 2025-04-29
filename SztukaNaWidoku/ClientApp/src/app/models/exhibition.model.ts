@@ -4,6 +4,5 @@ export interface ExhibitionModel{
   title: string;
   date: string;
   imageLink: string;
-  description: string;
   museoName: string;
 }

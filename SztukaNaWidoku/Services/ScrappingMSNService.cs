@@ -58,23 +58,14 @@ public class ScrappingMSNService(HttpClient httpClient, ILogger<ScrappingMNWServ
                 logger.LogWarning($"Image for {exhibitionLink} not found.");
                 continue;
             }
-            
-            var descriptionNode = exhibitionHtmlDocument.DocumentNode.SelectSingleNode("//p[@class='lead']");
-            if (descriptionNode == null)
-            {
-                logger.LogWarning($"Description for {exhibitionLink} not found.");
-                continue;
-            }
 
             var title = titleNode.InnerText;
             var date = dateNode.InnerText;
             var imgLink = baseUrl + imgNode.Attributes["src"].Value;
-            var description = descriptionNode.InnerText;
             
             exhibitions.Add(new Exhibition
             {
                 Title = title,
-                Description = description,
                 ImageLink = imgLink,
                 Date = date,
                 MuseoId = (int)Museos.MuzeumSztukiNowoczesnejWWarszawie,

@@ -73,23 +73,14 @@ public class ScrappingPGSService(HttpClient httpClient, ILogger<ScrappingMNWServ
                 logger.LogWarning($"Image for {exhibitionLink} not found.");
                 continue;
             }
-            
-            var descriptionNodes = exhibitionHtmlDocument.DocumentNode.SelectNodes(".//div[@class='entry-content']//p");
-            if(descriptionNodes == null)
-            {
-                logger.LogWarning($"Description for {exhibitionLink} not found.");
-                continue;
-            }
 
             var title = titleNode.InnerText;
             var date = string.Join(", ", dateNode.First().InnerText, dateNode.Skip(1).First().InnerText);
             var imgLink = imgNode.Attributes["src"].Value;
-            var description = descriptionNodes.Skip(4).First().InnerText;
             
             exhibitions.Add(new Exhibition
             {
                 Title = title,
-                Description = description,
                 ImageLink = imgLink,
                 Date = date,
                 MuseoId = (int)Museos.PanstwowaGaleriaSztukiWSopocie,

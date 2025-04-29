@@ -41,23 +41,14 @@ public class ScrappingMMGService(HttpClient httpClient, ILogger<ScrappingMMGServ
                 logger.LogWarning($"Image for {exhibitionLink} not found.");
                 continue;
             }
-            
-            var descriptionNodes = exhibitionHtmlDocument.DocumentNode.SelectSingleNode(".//div[@class='col']//p");
-            if (descriptionNodes == null)
-            {
-                logger.LogWarning($"Description for {exhibitionLink} not found.");
-                continue;
-            }
     
             var title = titleNode.InnerText;
             var date = dates[i].InnerText;
             var imgUrl = imgNode.Attributes["src"].Value;
-            var description = descriptionNodes.InnerText;
             
             exhibitions.Add(new Exhibition
             {
                 Title = title,
-                Description = description,
                 ImageLink = imgUrl,
                 Date = date,
                 MuseoId = (int)Museos.MuzemMiastaGdyni,

@@ -62,17 +62,9 @@ public class ScrappingMuzeumNarodoweGdansk(HttpClient httpClient, ILogger<Scrapp
                 continue;
             }
             
-            var paragraphNodes = node.SelectSingleNode(".//p[@class='mec-grid-event-location']");
-            if(paragraphNodes == null)
-            {
-                logger.LogWarning($"Paragraphs for {exhibitionLink} not found.");
-                continue;
-            }
-            
             var title = titleNode.InnerText;
             var date = startDateNode.InnerText + endDateNode.InnerText;
             var imgLink = imgNode.Attributes["src"].Value;
-            var description = paragraphNodes.InnerText;
             
             var exhibition = new Exhibition
             {
@@ -81,7 +73,6 @@ public class ScrappingMuzeumNarodoweGdansk(HttpClient httpClient, ILogger<Scrapp
                 Title = title,
                 Date = date,
                 ImageLink = imgLink,
-                Description = description
             };
             exhibitions.Add(exhibition);
         }

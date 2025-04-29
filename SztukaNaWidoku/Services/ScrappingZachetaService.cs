@@ -52,20 +52,10 @@ public class ScrappingZachetaService(HttpClient httpClient, ILogger<ScrappingMNW
                 logger.LogWarning($"Image for {exhibitionLink} not found.");
                 continue;
             }
-            
-            var paragraphNodes = exhibitionHtmlDocument.DocumentNode.SelectNodes("//div[@class='module-text']//p");
-            if(paragraphNodes == null)
-            {
-                logger.LogWarning($"Paragraphs for {exhibitionLink} not found.");
-                continue;
-            }
-            
-            var descriptionNode = paragraphNodes.Skip(4).First();
 
             var title = titleNode.InnerText;
             var date = dateNode.InnerText;
             var imgLink = baseUrl + imgNode.SelectSingleNode("//picture//source").Attributes["srcset"].Value;
-            var description = descriptionNode.InnerText;
             
             var exhibition = new Exhibition
             {
@@ -74,7 +64,6 @@ public class ScrappingZachetaService(HttpClient httpClient, ILogger<ScrappingMNW
                 Title = title,
                 Date = date,
                 ImageLink = imgLink,
-                Description = description
             };
             exhibitions.Add(exhibition);
         }

@@ -8,7 +8,5 @@ public class Exhibition
     public string Title { get; set; }
     public string Date { get; set; }
     public string ImageLink { get; set; }
-    public string Description { get; set; }
-    
     public Museo Museo { get; set; }
 }

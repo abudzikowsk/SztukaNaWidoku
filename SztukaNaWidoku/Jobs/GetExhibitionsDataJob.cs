@@ -26,27 +26,6 @@ public class GetExhibitionsDataJob(ExhibitionRepository exhibitionRepository,
             scrappingMMGService.Scrap(), 
             scrappingMuzeumNarodoweGdansk.Scrap()
         );
-        var exhibitionsFlatten = exhibitions.SelectMany(i => i).ToList();
-        foreach (var exhibition in exhibitionsFlatten)
-        {
-            var counter = 0;
-            var stringBuilder = new StringBuilder();
-            foreach (var character in exhibition.Description)
-            {
-                stringBuilder.Append(character);
-                if (character == '.')
-                {
-                    counter++;
-                }
-
-                if (counter == 4)
-                {
-                    break;
-                }
-            }
-
-            exhibition.Description = stringBuilder.ToString();
-        }
 
         await exhibitionRepository.CreateMany(exhibitions.SelectMany(i => i).ToList());
     }

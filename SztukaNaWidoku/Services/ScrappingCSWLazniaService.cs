@@ -75,24 +75,15 @@ public class ScrappingCSWLazniaService(HttpClient httpClient, ILogger<ScrappingM
                 continue;
             }
             
-            var descriptionNodes = exhibitionHtmlDocument.DocumentNode.SelectNodes(".//div[@class='txt ck']//p");
-            if(descriptionNodes == null)
-            {
-                logger.LogWarning($"Description for {exhibitionLink} not found.");
-                continue;
-            }
-            
             var regex = new Regex(@"(\/up\/wystawy\/\w*\/\w*.(jpg|png))");
     
             var title = titleNode.InnerText;
             var date = dates.InnerText;
             var imgUrl = baseUrl + regex.Match(imgNode.Attributes["style"].Value).Value;
-            var description = descriptionNodes.First().InnerText;
             
             exhibitions.Add(new Exhibition
             {
                 Title = title,
-                Description = description,
                 ImageLink = imgUrl,
                 Date = date,
                 MuseoId = (int)Museos.CentrumSztukiWspółczesnejŁaznia,

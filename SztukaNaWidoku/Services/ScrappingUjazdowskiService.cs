@@ -62,23 +62,14 @@ public class ScrappingUjazdowskiService(HttpClient httpClient, ILogger<Scrapping
                     logger.LogWarning($"Image in {exhibitionLink} not found.");
                     continue;
                 }
-                
-                var descriptionNode = exhibitionHtmlDocument.DocumentNode.SelectSingleNode(".//div[@class='event-tab-content']//div[@class='body max-w']//p");
-                if (descriptionNode == null)
-                {
-                    logger.LogWarning($"Description in {exhibitionLink} not found.");
-                    continue;
-                }
 
                 var title = titleNode.InnerText;
                 var date = dateText;
                 var imgLink = baseUrl + imgNode.Attributes["src"].Value;
-                var description = descriptionNode.InnerText;
                 
                 exhibitions.Add(new Exhibition
                 {
                     Title = title,
-                    Description = description,
                     ImageLink = imgLink,
                     Date = date,
                     Link = $"{baseUrl}{exhibitionLink}",

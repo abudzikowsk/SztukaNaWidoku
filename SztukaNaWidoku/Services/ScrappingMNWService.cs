@@ -55,18 +55,15 @@ public class ScrappingMNWService(HttpClient httpClient, ILogger<ScrappingMNWServ
             }
             
             var dateNode = paragraphNodes.First();
-            var descriptionNode = paragraphNodes.Skip(5).First();
             var imgNode = paragraphNodes.Skip(2).First().SelectSingleNode(".//img");
 
             var title = titleNode.InnerText;
             var date = dateNode.InnerText;
-            var description = descriptionNode.InnerText;
             var imgLink = baseUrl + imgNode?.Attributes["src"].Value;
             
             exhibitions.Add(new Exhibition
             {
                 Title = title,
-                Description = description,
                 ImageLink = imgLink,
                 Date = date,
                 MuseoId = (int)Museos.MuzeumNarodoweWWarszawie,
