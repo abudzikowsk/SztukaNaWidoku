@@ -75,7 +75,7 @@ public class ScrappingPGSService(HttpClient httpClient, ILogger<ScrappingMNWServ
             }
 
             var title = titleNode.InnerText;
-            var date = string.Join(", ", dateNode.First().InnerText, dateNode.Skip(1).First().InnerText);
+            var date = dateNode.Skip(2).First().InnerText;
             var imgLink = imgNode.Attributes["src"].Value;
             
             exhibitions.Add(new Exhibition
