@@ -47,21 +47,6 @@ table {
   border-spacing: 0;
 }
 
-@font-face {
-  font-family: 'BodoniModa-VariableFont_opsz,wght';
-  src: url('/assets/BodoniModa-VariableFont_opsz,wght.ttf') format('opentype');
-}
-
-@font-face {
-  font-family: 'PlayfairDisplay-VariableFont_wght';
-  src: url('/assets/PlayfairDisplay-VariableFont_wght.ttf') format('truetype');
-}
-
-@font-face {
-  font-family: 'LubalinGraphStd-Book';
-  src: url('/assets/LubalinGraphStd-Book.otf') format('opentype');
-}
-
 body {
-  font-family: 'LubalinGraphStd-Book';
+  font-family: 'Montserrat';
 }
